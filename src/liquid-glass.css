@@ -1,0 +1,431 @@
+/* Liquid Glass material: translucent, blurred, refractive surfaces with a specular rim and a
+   pointer-following highlight. Same palette as the base theme (white / black / sky blue). */
+
+:root {
+  --bg: #eaf4fb;
+  --bg-alt: transparent;
+  --muted: #4a5663;
+  --glass-fill: rgba(255, 255, 255, 0.38);
+  --glass-fill-strong: rgba(255, 255, 255, 0.55);
+  --glass-rim: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 10px 34px -10px rgba(2, 100, 160, 0.28);
+  --r-lg: 28px;
+  --r-md: 20px;
+}
+
+body {
+  background: var(--bg);
+}
+
+/* Shapes behind the glass */
+.lg-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The material */
+.fnav,
+.card,
+.btn-ghost,
+.badges li,
+.tags li,
+.footer,
+.fnav-overlay {
+  position: relative;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid var(--glass-rim);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+    var(--glass-shadow);
+}
+.lg-refract .fnav,
+.lg-refract .btn {
+  -webkit-backdrop-filter: url(#lg-refract) blur(6px) saturate(180%);
+  backdrop-filter: url(#lg-refract) blur(6px) saturate(180%);
+}
+
+/* Specular highlight that follows the pointer */
+.fnav::after,
+.card::after,
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.7), transparent 70%);
+}
+.fnav:hover::after,
+.card:hover::after,
+.btn:hover::after {
+  opacity: 1;
+}
+
+/* Shapes: large, concentric radii like iOS */
+.card {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.card:hover {
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+.card {
+  transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1), border-color 0.2s;
+}
+.fnav {
+  border-radius: 999px;
+  background: var(--glass-fill-strong);
+}
+.footer {
+  margin: 0 16px 16px;
+  border-radius: var(--r-lg);
+}
+
+/* Buttons: capsules */
+.btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  padding: 11px 22px;
+  transition: transform 0.3s cubic-bezier(0.3, 1.4, 0.5, 1), background 0.2s;
+}
+.btn:hover {
+  transform: scale(1.04);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: rgba(2, 132, 199, 0.88);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 8px 22px -8px rgba(2, 132, 199, 0.7);
+}
+.btn-primary:hover {
+  background: rgba(3, 105, 161, 0.92);
+}
+.btn-ghost:hover {
+  color: var(--accent-hover);
+  border-color: #fff;
+}
+
+/* Small pills */
+.badges li,
+.tags li {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  color: var(--text);
+  backdrop-filter: blur(10px) saturate(160%);
+}
+.tags li {
+  color: var(--muted);
+}
+
+/* Project thumbnails */
+.thumb {
+  margin: 8px 8px 0;
+  height: 132px;
+  border: 1px solid var(--glass-rim);
+  border-radius: var(--r-md);
+  background: rgba(2, 132, 199, 0.14);
+}
+.project {
+  padding-top: 0;
+}
+
+/* Nav links as glass capsules */
+.fnav-links a:hover,
+.fnav-links a.active {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 #fff, 0 2px 8px -2px rgba(2, 100, 160, 0.25);
+}
+.fnav-overlay {
+  border-radius: 0;
+  background: rgba(234, 244, 251, 0.82);
+}
+
+/* Sections let the backdrop through */
+.section.alt {
+  background: transparent;
+}
+
+/* No glass effects without support: keep text readable on a solid fill */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .fnav,
+  .card,
+  .btn-ghost,
+  .footer,
+  .fnav-overlay {
+    background: rgba(255, 255, 255, 0.92);
+  }
+}
+
+
+/* Accessibility */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-hover);
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* Theme toggle button */
+.theme-btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--glass-rim);
+  background: var(--glass-fill-strong);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+.theme-btn:hover {
+  color: var(--accent);
+}
+body {
+  transition: background 0.4s;
+}
+
+/* ---- Dark mode: same glass material on a deep navy base ---- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #050d18;
+  --text: #f2f7fb;
+  --muted: #9fb1c2;
+  --border: rgba(255, 255, 255, 0.14);
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-tint: rgba(56, 189, 248, 0.16);
+  --glass-fill: rgba(22, 40, 62, 0.42);
+  --glass-fill-strong: rgba(18, 32, 52, 0.66);
+  --glass-rim: rgba(255, 255, 255, 0.16);
+  --glass-shadow: 0 10px 34px -10px rgba(0, 0, 0, 0.65);
+}
+[data-theme='dark'] .fnav,
+[data-theme='dark'] .card,
+[data-theme='dark'] .btn-ghost,
+[data-theme='dark'] .badges li,
+[data-theme='dark'] .tags li,
+[data-theme='dark'] .footer,
+[data-theme='dark'] .theme-btn {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    var(--glass-shadow);
+}
+[data-theme='dark'] .fnav::after,
+[data-theme='dark'] .card::after,
+[data-theme='dark'] .btn::after {
+  background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.14), transparent 70%);
+}
+[data-theme='dark'] .card:hover,
+[data-theme='dark'] .btn-ghost:hover {
+  border-color: var(--accent);
+}
+[data-theme='dark'] .btn-primary {
+  background: rgba(2, 132, 199, 0.9);
+  color: #fff;
+}
+[data-theme='dark'] .btn-primary:hover {
+  background: rgba(14, 165, 233, 0.95);
+}
+[data-theme='dark'] .fnav-links a:hover,
+[data-theme='dark'] .fnav-links a.active {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+[data-theme='dark'] .fnav-overlay {
+  background: rgba(5, 13, 24, 0.9);
+}
+[data-theme='dark'] .skip-link {
+  background: var(--bg);
+}
+[data-theme='dark'] .marquee-item,
+[data-theme='dark'] .orbit-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+[data-theme='dark'] .orbit-chip {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 8px 20px -6px rgba(0, 0, 0, 0.6);
+}
+[data-theme='dark'] .ring {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 28px rgba(56, 189, 248, 0.08), 0 0 24px rgba(56, 189, 248, 0.08);
+}
+[data-theme='dark'] .reel-orb {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -10px 30px rgba(56, 189, 248, 0.1), 0 24px 50px -20px rgba(0, 0, 0, 0.7);
+}
+[data-theme='dark'] .reel-ring {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+[data-theme='dark'] .reels-dots button {
+  background: rgba(255, 255, 255, 0.25);
+}
+[data-theme='dark'] .reels-dots button.on {
+  background: var(--accent);
+}
+[data-theme='dark'] .badges li.lang {
+  background: rgba(56, 189, 248, 0.2);
+}
+
+/* ======== Full Liquid Glass pass ======== */
+:root {
+  --glass-fill: rgba(255, 255, 255, 0.2);
+  --glass-fill-strong: rgba(255, 255, 255, 0.34);
+  --glass-rim: rgba(255, 255, 255, 0.55);
+}
+:root[data-theme='dark'] {
+  --glass-fill: rgba(140, 200, 255, 0.09);
+  --glass-fill-strong: rgba(140, 200, 255, 0.16);
+  --glass-rim: rgba(255, 255, 255, 0.2);
+}
+
+/* Thicker, clearer glass: strong blur + saturation + a touch of brightness */
+.fnav,
+.card,
+.btn-ghost,
+.footer,
+.theme-btn,
+.reel-orb {
+  -webkit-backdrop-filter: blur(14px) saturate(190%) brightness(1.06);
+  backdrop-filter: blur(14px) saturate(190%) brightness(1.06);
+}
+/* Chromium: real refraction with colour fringing on every glass surface */
+.lg-refract .btn,
+.lg-refract .theme-btn,
+.lg-refract .foot-btn {
+  -webkit-backdrop-filter: url(#lg-refract) blur(5px) saturate(190%) brightness(1.06);
+  backdrop-filter: url(#lg-refract) blur(5px) saturate(190%) brightness(1.06);
+}
+
+/* Specular rim light: bright at the top-left and bottom-right edges, clear between */
+.fnav::before,
+.card::before,
+.btn::before,
+.footer::before,
+.theme-btn::before,
+.reel-orb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.2px;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.08) 38%, rgba(255, 255, 255, 0.08) 62%, rgba(255, 255, 255, 0.75));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+[data-theme='dark'] .fnav::before,
+[data-theme='dark'] .card::before,
+[data-theme='dark'] .btn::before,
+[data-theme='dark'] .footer::before,
+[data-theme='dark'] .theme-btn::before,
+[data-theme='dark'] .reel-orb::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.04) 38%, rgba(255, 255, 255, 0.04) 62%, rgba(255, 255, 255, 0.4));
+}
+.theme-btn,
+.reel-orb {
+  position: relative;
+}
+
+/* Inner lens glow so edges look thicker than the centre */
+.card,
+.fnav,
+.footer {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 22px rgba(255, 255, 255, 0.28),
+    inset 0 -8px 18px -8px rgba(2, 132, 199, 0.18),
+    var(--glass-shadow);
+}
+[data-theme='dark'] .card,
+[data-theme='dark'] .fnav,
+[data-theme='dark'] .footer {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 22px rgba(140, 200, 255, 0.08),
+    inset 0 -8px 18px -8px rgba(56, 189, 248, 0.14),
+    var(--glass-shadow);
+}
+
+/* Reduced transparency (e.g. Windows "Transparency effects" off): keep the glass look but make
+   surfaces denser so text stays high-contrast. Not solid, so the design still reads as glass. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-fill: rgba(255, 255, 255, 0.5);
+    --glass-fill-strong: rgba(255, 255, 255, 0.62);
+  }
+  :root[data-theme='dark'] {
+    --glass-fill: rgba(20, 40, 66, 0.62);
+    --glass-fill-strong: rgba(16, 32, 54, 0.78);
+  }
+}
+
+/* ---- iPhone-OS tokens: maps, sheets ---- */
+:root {
+  --m-sea: #cfe4f3;
+  --m-land: #f3f0e9;
+  --m-border: #d8d2c4;
+  --m-text: #8a8577;
+  --sheet: rgba(250, 252, 255, 0.78);
+}
+:root[data-theme='dark'] {
+  --m-sea: #14202e;
+  --m-land: #262a31;
+  --m-border: #3a4049;
+  --m-text: #8d96a3;
+  --sheet: rgba(20, 30, 46, 0.82);
+}
+[data-theme='dark'] .mini {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+[data-theme='dark'] .notif,
+[data-theme='dark'] .ring-widget,
+[data-theme='dark'] .round-btn,
+[data-theme='dark'] .place-card {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), var(--glass-shadow);
+}
+[data-theme='dark'] .sheet-app .app-tile {
+  background: rgba(255, 255, 255, 0.92);
+}
+[data-theme='dark'] .app-icon.wave {
+  background: rgba(255, 255, 255, 0.18);
+}

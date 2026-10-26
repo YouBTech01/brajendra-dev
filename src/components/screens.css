@@ -1,0 +1,829 @@
+/* Phone-sized app screens for the Channel deck: YouTube, Instagram, Telegram, GitHub.
+   Each follows its app's own layout and light/dark palette. */
+
+/* ---- infinite coverflow deck: the active phone sits in the middle, neighbours behind it ---- */
+.deck {
+  --ch: min(76svh, 660px);
+  --cw: min(80vw, calc(var(--ch) * 0.52));
+  position: relative;
+  overflow-x: clip;
+}
+.deck-stage {
+  position: relative;
+  height: calc(var(--ch) + 28px);
+  perspective: 1400px;
+  touch-action: pan-y;
+  cursor: grab;
+  outline-offset: -4px;
+}
+.deck-stage:active {
+  cursor: grabbing;
+}
+.deck-drag {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.deck-card {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: var(--cw);
+  margin-left: calc(var(--cw) / -2);
+  will-change: transform, opacity;
+}
+.deck-card.side {
+  cursor: pointer;
+}
+.deck-card.side .screen {
+  pointer-events: none;
+  filter: saturate(0.85) brightness(0.96);
+}
+.deck-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border: 0;
+  border-radius: 40px;
+  background: transparent;
+  cursor: pointer;
+}
+.deck-arrow {
+  position: absolute;
+  top: calc(var(--ch) / 2);
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-rim);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  backdrop-filter: blur(16px) saturate(190%);
+  color: var(--text);
+  cursor: pointer;
+}
+.deck-arrow.prev {
+  left: max(12px, calc(50% - var(--cw) / 2 - 250px));
+}
+.deck-arrow.next {
+  right: max(12px, calc(50% - var(--cw) / 2 - 250px));
+}
+.deck-arrow.prev svg {
+  transform: rotate(180deg);
+}
+.deck-dots {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+.deck-dots button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.deck-dots button::before {
+  content: '';
+  width: 18px;
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(120, 140, 170, 0.45);
+  transition: width 0.25s, background 0.25s;
+}
+.deck-dots button.on::before {
+  width: 34px;
+  background: var(--accent);
+}
+.deck-hint {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .deck-arrow {
+    display: none;
+  }
+}
+
+.screen {
+  --s-bg: #fff;
+  --s-fg: #0f0f0f;
+  --s-sub: #606060;
+  --s-line: rgba(0, 0, 0, 0.1);
+  --s-chip: rgba(0, 0, 0, 0.06);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: var(--cw);
+  height: var(--ch);
+  overflow: hidden;
+  border-radius: 40px;
+  background: var(--s-bg);
+  color: var(--s-fg);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  box-shadow:
+    0 0 0 6px #15171a,
+    0 0 0 7px #4a4e57,
+    0 34px 70px -22px rgba(0, 25, 70, 0.55);
+  user-select: none;
+}
+[data-theme='dark'] .screen {
+  --s-bg: #0f0f0f;
+  --s-fg: #f1f1f1;
+  --s-sub: #aaa;
+  --s-line: rgba(255, 255, 255, 0.14);
+  --s-chip: rgba(255, 255, 255, 0.12);
+}
+.screen h3 {
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+.screen p {
+  margin: 0;
+}
+.screen .muted,
+.screen small {
+  color: var(--s-sub);
+}
+.screen a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* status bar + app chrome */
+.sb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  height: 34px;
+  padding: 8px 24px 0;
+  font-size: 0.78rem;
+}
+.sb-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.sb-signal {
+  width: 15px;
+  height: 9px;
+  background: linear-gradient(90deg, currentColor 0 18%, transparent 18% 27%, currentColor 27% 45%, transparent 45% 54%, currentColor 54% 72%, transparent 72% 81%, currentColor 81% 100%);
+  clip-path: polygon(0 100%, 0 70%, 25% 70%, 25% 45%, 50% 45%, 50% 20%, 75% 20%, 75% 0, 100% 0, 100% 100%);
+}
+.sb-wifi {
+  width: 13px;
+  height: 9px;
+  border-radius: 13px 13px 2px 2px;
+  background: currentColor;
+  clip-path: polygon(50% 100%, 0 20%, 100% 20%);
+}
+.sb-batt {
+  width: 22px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  position: relative;
+  opacity: 0.9;
+}
+.sb-batt::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  border-radius: 1.5px;
+  background: currentColor;
+}
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  gap: 16px;
+  height: 42px;
+  padding: 0 16px;
+}
+.app-bar > span:nth-child(2) {
+  flex: 1;
+}
+.app-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex: none;
+  margin-top: auto;
+  padding: 8px 6px 20px;
+  border-top: 1px solid var(--s-line);
+  background: var(--s-bg);
+}
+.app-nav > span {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  font-size: 0.6rem;
+  opacity: 0.75;
+}
+.app-nav > span.on {
+  opacity: 1;
+}
+.app-nav small {
+  color: inherit;
+  font-size: 0.6rem;
+}
+
+/* ============================== YouTube ============================== */
+.yt-banner {
+  position: relative;
+  flex: none;
+  height: 78px;
+  margin: 0 12px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #061a36;
+}
+.yt-banner i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(26px);
+  animation: drift 8s ease-in-out infinite alternate;
+}
+.yt-banner i:first-child {
+  width: 60%;
+  aspect-ratio: 1;
+  left: -8%;
+  top: -60%;
+  background: #0a84ff;
+}
+.yt-banner i:last-child {
+  width: 50%;
+  aspect-ratio: 1;
+  right: -6%;
+  bottom: -70%;
+  background: #ff3b30;
+  animation-delay: -3s;
+}
+.yt-id {
+  display: flex;
+  flex: none;
+  gap: 12px;
+  padding: 12px 16px 0;
+}
+.yt-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--s-chip);
+}
+.yt-id p {
+  font-size: 0.74rem;
+  color: var(--s-sub);
+}
+.yt-id .more {
+  margin-top: 3px;
+}
+.yt-actions {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  padding: 12px 16px 6px;
+}
+.screen .yt-sub {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  height: 36px;
+  border-radius: 99px;
+  background: var(--s-fg);
+  color: var(--s-bg);
+  font-weight: 600;
+  font-size: 0.86rem;
+}
+.yt-bell {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 36px;
+  border-radius: 99px;
+  background: var(--s-chip);
+}
+.yt-tabs {
+  display: flex;
+  flex: none;
+  gap: 18px;
+  padding: 0 16px;
+  margin-top: 6px;
+  border-bottom: 1px solid var(--s-line);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.yt-tabs span {
+  padding: 10px 0;
+  color: var(--s-sub);
+}
+.yt-tabs span.on {
+  color: var(--s-fg);
+  box-shadow: inset 0 -2px 0 var(--s-fg);
+}
+.yt-chips {
+  display: flex;
+  flex: none;
+  gap: 8px;
+  padding: 10px 16px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.yt-chips span {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--s-chip);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+.yt-chips span.on {
+  background: var(--s-fg);
+  color: var(--s-bg);
+}
+.yt-feature {
+  display: block;
+  flex: none;
+  margin: 2px 12px 0;
+}
+.yt-thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 112px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #061a36;
+}
+.yt-thumb i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: drift 7s ease-in-out infinite alternate;
+}
+.yt-thumb i:first-child {
+  width: 70%;
+  aspect-ratio: 1;
+  left: -15%;
+  top: -50%;
+  background: #5e5ce6;
+}
+.yt-thumb i:nth-child(2) {
+  width: 55%;
+  aspect-ratio: 1;
+  right: -10%;
+  bottom: -60%;
+  background: #0a84ff;
+  animation-delay: -2s;
+}
+.yt-play {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 36px;
+  border-radius: 12px;
+  background: #ff0033;
+  color: #fff;
+}
+.yt-meta {
+  display: grid;
+  gap: 1px;
+  padding: 8px 4px 0;
+}
+.yt-meta b {
+  font-size: 0.92rem;
+}
+.yt-nav .plus {
+  opacity: 1;
+}
+
+/* ============================= Instagram ============================= */
+.ig {
+  --s-bg: #fff;
+  --s-fg: #000;
+  --s-sub: #737373;
+  --s-line: #dbdbdb;
+  --s-chip: #efefef;
+}
+[data-theme='dark'] .ig {
+  --s-bg: #000;
+  --s-fg: #f5f5f5;
+  --s-sub: #a8a8a8;
+  --s-line: #262626;
+  --s-chip: #262626;
+}
+.ig-top {
+  gap: 10px;
+}
+.ig-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: auto;
+  font-size: 1.02rem;
+}
+.ig-head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 16px 0;
+}
+.ig-ring {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75);
+  animation: spin 7s linear infinite;
+}
+.ig-ring .ig-avatar {
+  animation: spin 7s linear infinite reverse;
+}
+.ig-avatar {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--s-chip);
+  border: 3px solid var(--s-bg);
+}
+.ig-stats {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  text-align: center;
+}
+.ig-stats span {
+  display: grid;
+}
+.ig-stats b {
+  font-size: 1rem;
+}
+.ig-bio {
+  display: grid;
+  flex: none;
+  gap: 1px;
+  padding: 10px 16px 0;
+}
+.screen .ig-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #00376b;
+  font-weight: 500;
+}
+[data-theme='dark'] .screen .ig-link {
+  color: #e0f1ff;
+}
+.ig-actions {
+  display: flex;
+  flex: none;
+  gap: 6px;
+  padding: 10px 16px 0;
+}
+.ig-follow,
+.ig-msg,
+.ig-add {
+  display: grid;
+  place-items: center;
+  height: 32px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.screen .ig-follow {
+  flex: 1;
+  background: #0095f6;
+  color: #fff;
+}
+.ig-msg {
+  flex: 1;
+  background: var(--s-chip);
+}
+.ig-add {
+  width: 36px;
+  background: var(--s-chip);
+}
+.ig-hl {
+  display: flex;
+  flex: none;
+  gap: 14px;
+  padding: 12px 16px 6px;
+}
+.ig-hl span {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+.ig-hl i {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid var(--s-line);
+  background: var(--s-chip);
+}
+.ig-hl small {
+  font-size: 0.64rem;
+}
+.ig-tabs {
+  display: flex;
+  flex: none;
+  margin-top: 4px;
+  border-top: 1px solid var(--s-line);
+}
+.ig-tabs span {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 8px 0;
+  color: var(--s-sub);
+}
+.ig-tabs span.on {
+  color: var(--s-fg);
+  box-shadow: inset 0 -1.5px 0 var(--s-fg);
+}
+.ig-grid {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  overflow: hidden;
+}
+.ig-grid i {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  background: var(--c);
+  color: #fff;
+}
+.ig-nav {
+  margin-top: 0;
+}
+.ig-me {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--s-chip);
+  outline: 1.5px solid var(--s-fg);
+}
+
+/* ============================== Telegram ============================== */
+.tg {
+  --s-bg: #fff;
+  --s-fg: #000;
+  --s-sub: #707579;
+  --s-line: rgba(0, 0, 0, 0.1);
+  --s-chip: rgba(0, 0, 0, 0.06);
+  --tg-chat: #dfe9ef;
+  --tg-in: #fff;
+  --tg-accent: #3390ec;
+}
+[data-theme='dark'] .tg {
+  --s-bg: #17212b;
+  --s-fg: #f5f5f5;
+  --s-sub: #7f91a4;
+  --s-line: rgba(255, 255, 255, 0.08);
+  --tg-chat: #0e1621;
+  --tg-in: #182533;
+  --tg-accent: #6ab3f3;
+}
+.tg-top {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 8px;
+  background: var(--s-bg);
+}
+.tg-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #7ac1ff, #3390ec);
+}
+.tg-title {
+  display: grid;
+  flex: 1;
+  line-height: 1.2;
+}
+.tg-title b {
+  font-size: 0.96rem;
+}
+.tg-chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  padding: 12px 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.28) 0 2px, transparent 3px) 0 0 / 38px 38px,
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.2) 0 2px, transparent 3px) 0 0 / 52px 52px,
+    var(--tg-chat);
+}
+.tg-date {
+  align-self: center;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+.tg-msg {
+  position: relative;
+  max-width: 88%;
+  padding: 7px 10px 18px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--tg-in);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+}
+.tg-msg p + p {
+  margin-top: 4px;
+}
+.tg-time {
+  position: absolute;
+  right: 9px;
+  bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.62rem;
+  color: var(--s-sub);
+}
+.screen .tg-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 88%;
+  margin-top: -4px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.32);
+  color: #fff;
+  font-weight: 500;
+}
+.screen .tg-join {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 46px;
+  background: var(--s-bg);
+  color: var(--tg-accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-top: 1px solid var(--s-line);
+}
+.tg .home-bar {
+  flex: none;
+  width: 36%;
+  margin: 8px auto 8px;
+  background: var(--s-fg);
+}
+
+/* ============================== GitHub ============================== */
+.gh {
+  --s-bg: #fff;
+  --s-fg: #1f2328;
+  --s-sub: #59636e;
+  --s-line: #d1d9e0;
+  --s-chip: #f6f8fa;
+}
+[data-theme='dark'] .gh {
+  --s-bg: #0d1117;
+  --s-fg: #f0f6fc;
+  --s-sub: #9198a1;
+  --s-line: #3d444d;
+  --s-chip: #151b23;
+}
+.gh-top {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--s-line);
+}
+.gh-id {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px 0;
+}
+.gh-avatar {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: var(--s-chip);
+  border: 1px solid var(--s-line);
+}
+.screen .gh-bio {
+  flex: none;
+  padding: 14px 16px 0;
+}
+.gh-follow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 34px;
+  margin: 12px 16px 0;
+  border-radius: 8px;
+  border: 1px solid var(--s-line);
+  background: var(--s-chip);
+  font-weight: 600;
+}
+.gh-meta {
+  display: grid;
+  flex: none;
+  gap: 6px;
+  margin: 14px 0 0;
+  padding: 0 16px;
+  list-style: none;
+  color: var(--s-sub);
+}
+.gh-meta li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gh-meta b {
+  color: var(--s-fg);
+}
+.gh-list {
+  display: grid;
+  flex: none;
+  margin: 18px 16px 0;
+  border: 1px solid var(--s-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.gh-list a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+}
+.gh-list a + a {
+  border-top: 1px solid var(--s-line);
+}
+.gh-list span {
+  flex: 1;
+  font-weight: 500;
+}
+.gh-list svg:last-child {
+  color: var(--s-sub);
+}
+
+/* brand logo as a circular avatar on every platform */
+.yt-avatar,
+.ig-avatar,
+.tg-avatar,
+.gh-avatar,
+.ig-me {
+  overflow: hidden;
+  background: #19191b;
+}
+.logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: scale(1.04); /* trims the square's dark corners so only the round logo shows */
+}
+
+.yt-tabs span,
+.ig-tabs span {
+  cursor: pointer;
+  transition: color 0.2s, box-shadow 0.25s;
+}
+.yt-chips span {
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}

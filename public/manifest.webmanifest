@@ -1,0 +1,16 @@
+{
+  "name": "Brajendra (BKC)",
+  "short_name": "BKC",
+  "description": "Developer, YouTuber and tech creator.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "portrait",
+  "background_color": "#eaf4fb",
+  "theme_color": "#eaf4fb",
+  "icons": [
+    { "src": "/brand/logo.webp", "sizes": "256x256", "type": "image/webp", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brajendra (BKC): Developer, YouTuber &amp; Tech Creator</title>
+    <meta
+      name="description"
+      content="Portfolio of Brajendra: developer, YouTuber and app builder. Flutter, Android, Python and web projects, and the You B Tech channel."
+    />
+    <meta name="author" content="Brajendra" />
+    <meta name="theme-color" content="#eaf4fb" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/brand/logo.webp" />
+    <!-- when added to the home screen the site opens full screen, with no browser bars -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="BKC" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script>
+      // Every visit and refresh starts at the lock-screen hero, never at a restored scroll position
+      try {
+        history.scrollRestoration = 'manual'
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search)
+        scrollTo(0, 0)
+        addEventListener('pageshow', function (e) {
+          if (e.persisted) scrollTo(0, 0)
+        })
+      } catch (e) {}
+    </script>
+    <script>
+      try {
+        var t = localStorage.getItem('theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Brajendra (BKC)" />
+    <meta property="og:title" content="Brajendra (BKC): Developer, YouTuber &amp; Tech Creator" />
+    <meta
+      property="og:description"
+      content="Apps, tech tutorials and the You B Tech channel by Brajendra."
+    />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Brajendra",
+        "jobTitle": "Developer & YouTuber",
+        "description": "Developer, YouTuber and app builder behind You B Tech.",
+        "sameAs": [
+          "https://github.com/YouBTech01",
+          "https://youtube.com/@You_B_Tech",
+          "https://www.instagram.com/you_b_tech",
+          "https://t.me/YouBTech"
+        ]
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>This site needs JavaScript. Find Brajendra on GitHub: https://github.com/YouBTech01</noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
