@@ -142,6 +142,6 @@ npm run preview   # serve the production build locally
 
 [![YouTube](https://img.shields.io/badge/YouTube-You_B_Tech-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/@You_B_Tech)
 [![GitHub](https://img.shields.io/badge/GitHub-YouBTech01-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YouBTech01)
-[![Instagram](https://img.shields.io/badge/Instagram-you__b__tech-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/you_b_tech)
+[![Instagram](https://img.shields.io/badge/Instagram-youbtech__code-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/youbtech_code)
 [![Telegram](https://img.shields.io/badge/Telegram-YouBTech-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/YouBTech)
 [![Website](https://img.shields.io/badge/Website-ybtshop.com-0A84FF?style=for-the-badge&logo=safari&logoColor=white)](https://ybtshop.com)

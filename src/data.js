@@ -1,7 +1,7 @@
 export const links = {
   github: 'https://github.com/YouBTech01',
   youtube: 'https://youtube.com/@You_B_Tech',
-  instagram: 'https://www.instagram.com/you_b_tech',
+  instagram: 'https://www.instagram.com/youbtech_code',
   telegram: 'https://t.me/YouBTech',
   telegramCoding: 'https://t.me/You_B_Tech_Coding',
   website: 'https://ybtshop.com',

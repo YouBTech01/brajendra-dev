@@ -159,12 +159,12 @@ const grid = [
 export function InstagramScreen() {
   const [tab, setTab] = useState(0)
   return (
-    <article className="screen ig" aria-label="Instagram profile: you_b_tech">
+    <article className="screen ig" aria-label="Instagram profile: youbtech_code">
       <StatusBar />
       <header className="app-bar ig-top">
         <span className="ig-user">
           <Icon name="solar:lock-linear" size={14} />
-          <b>you_b_tech</b>
+          <b>youbtech_code</b>
         </span>
         <Icon name="solar:add-circle-linear" size={24} />
         <Icon name="solar:hamburger-menu-linear" size={24} />
