@@ -4,7 +4,10 @@ import { useSyncExternalStore } from 'react'
 //  - one view is counted per browser session
 //  - a visitor can like once, and tap again to take the like back
 // Counts are cached in localStorage, so the footer never shows empty, even if the API is slow.
-const API = '/api/stats'
+const API =
+  typeof window !== 'undefined' && window.location.hostname.includes('github.io')
+    ? 'https://you-b-tech-portfolio-eaefa6f2.netlify.app/api/stats'
+    : '/api/stats'
 const CACHE = 'stats-cache'
 const LIKED = 'stats-liked'
 const VIEWED = 'stats-viewed'

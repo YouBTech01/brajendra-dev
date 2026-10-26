@@ -23,6 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
-# local mini JSON database (views and likes while developing)
-data/stats.json
+# Netlify (not needed)
 .netlify
+
+# AI config
+.claude/
+
+# Local dev database
+data/stats.json

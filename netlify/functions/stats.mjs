@@ -8,10 +8,27 @@ import { EMPTY, apply, clean } from '../../server/stats-core.js'
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+    headers: {
+      'content-type': 'application/json',
+      'cache-control': 'no-store',
+      'access-control-allow-origin': '*',
+      'access-control-allow-methods': 'GET, POST, OPTIONS',
+      'access-control-allow-headers': 'content-type',
+    },
   })
 
 export default async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET, POST, OPTIONS',
+        'access-control-allow-headers': 'content-type',
+      },
+    })
+  }
+
   const store = getStore('site-stats')
   const KEY = 'stats'
 
