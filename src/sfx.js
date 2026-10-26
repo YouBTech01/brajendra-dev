@@ -5,7 +5,7 @@ import { isBooting } from './boot.js'
 // Web Audio gives instant, overlap-friendly playback. Browsers keep audio locked until the
 // visitor's first tap, click or key press, so the page shows a "Tap for sound" cue until then.
 // There is also an on/off switch in the Dynamic Island.
-const BASE = '/sfx/'
+const BASE = `${import.meta.env.BASE_URL}sfx/`
 const KEY = 'sfx'
 
 // per-sound loudness on top of the normalised files

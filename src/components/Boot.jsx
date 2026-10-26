@@ -32,7 +32,7 @@ export function Boot() {
       pages = (parts.fonts + parts.imgs + parts.page) / 3
     }
     document.fonts?.ready.then(() => bump('fonts'), () => bump('fonts'))
-    Promise.all([loadImage('/brand/logo.webp'), ...[...document.images].map((i) => loadImage(i.currentSrc || i.src))]).then(() => bump('imgs'))
+    Promise.all([loadImage(`${import.meta.env.BASE_URL}brand/logo.webp`), ...[...document.images].map((i) => loadImage(i.currentSrc || i.src))]).then(() => bump('imgs'))
     if (document.readyState === 'complete') bump('page')
     else addEventListener('load', () => bump('page'), { once: true })
 
@@ -116,7 +116,7 @@ export function Boot() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.img
-            src="/brand/logo.webp"
+            src={`${import.meta.env.BASE_URL}brand/logo.webp`}
             alt=""
             className="boot-logo"
             initial={{ opacity: 0, scale: 0.9 }}

@@ -86,7 +86,7 @@ export function Footer() {
       <div className="card foot-card">
         <div className="foot-brand">
           <span className="foot-logo">
-            <img src="/brand/logo.webp" width="64" height="64" alt="" decoding="async" loading="lazy" />
+            <img src={`${import.meta.env.BASE_URL}brand/logo.webp`} width="64" height="64" alt="" decoding="async" loading="lazy" />
           </span>
           <div>
             <b>

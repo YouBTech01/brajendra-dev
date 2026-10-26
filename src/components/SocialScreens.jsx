@@ -10,7 +10,7 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' }
 
 // The You B Tech brand logo, used as the circular profile picture on every platform
 function Logo() {
-  return <img className="logo-img" src="/brand/logo.webp" width="96" height="96" alt="You B Tech logo" decoding="async" />
+  return <img className="logo-img" src={`${import.meta.env.BASE_URL}brand/logo.webp`} width="96" height="96" alt="You B Tech logo" decoding="async" />
 }
 
 function StatusBar() {
